@@ -1,0 +1,59 @@
+Create database Film_details
+use Film_details
+create table Artist(Artist_id int, Artist_Name varchar(100), Artist_Gender varchar(50))
+insert into Artist values(1,"Arjun","Male");
+insert into Artist values(2,"Anamika","Female");
+insert into Artist values(3,"Brito","Male");
+insert into Artist values(4,"Britney","Female");
+alter table artist modify column Artist_id int primary key
+select * from Artist
+create table Producer(Producer_id int,Producer_Name varchar(100),Producer_Phone int)
+insert into Producer values(11,"Ceasor",12345);
+insert into Producer values(12,"Dinesh",67890);
+insert into Producer values(13,"Elena",54321);
+insert into Producer values(14,"Farook",09876);
+alter table Producer modify column Producer_id int primary key 
+select * from Producer
+create table Films(Film_id int, Film_Title varchar(100), Film_Year date, Film_Lang varchar(50), Producer_id int) 
+insert into Films values(21,"Gambling",2001,"English",11);
+insert into Films values(22,"Havoc",2002,"French",12);
+insert into Films values(23,"Island",2001,"English",11);
+insert into Films values(24,"Jinx",2003,"Korean",13);
+insert into Films values(25,"Key",2004,"English",14);
+select * from Films
+alter table Films modify column Film_Year int
+alter table Films modify column Film_id int primary key
+alter table Films add constraint key1 foreign key(Producer_id) references Producer(Producer_id)
+create table Casting(Artist_id int, Film_id int, Part varchar(50))
+insert into Casting values( 1,21,"Actor");
+insert into Casting values( 1,22,"Guest");
+insert into Casting values( 2,23,"Actress");
+insert into Casting values( 3,24,"Actor");
+insert into Casting values( 4,21,"Actress");
+insert into Casting values( 1,22,"Actor");
+alter table Casting add constraint key2 foreign key(Artist_id) references Artist(Artist_id)
+alter table Casting add constraint key3 foreign key(Film_id) references Films(Film_id)
+select * from Casting
+insert into Casting values( 1,22,"Guest");
+insert into Casting values( 3,25,"Actor");
+delete from Casting where Film_id=22
+create table Review(Film_id int, Stars int) 
+insert into Review values(21,4);
+insert into Review values(22,3);
+insert into Review values(23,5);
+insert into Review values(24,4);
+insert into Review values(25,2);
+alter table Review add constraint key4 foreign key(Film_id) references Films(Film_id)
+select * from Review
+select Film_Title from Films where Film_Year=2001;
+select Producer.Producer_Name,Films.Film_Title from Producer inner join Films on Producer.Producer_id=Films.Producer_id;
+select Films.Film_Title,Producer.Producer_Name from Films inner join Producer on Films.Producer_id=Producer.Producer_id where Producer_Name="Ceasor";
+select Artist.Artist_Name,Films.Film_Title,Films.Film_Year,Casting.Artist_id from Artist
+inner join Films on Films.Film_id=Artist.Artist_id
+inner join Casting on Films.Film_id=Casting.Film_id between 2002 and 2003;
+select A.Artist_Name,F.Film_Title,F.Film_Year from Artist A,Casting C,Films F where A.Artist_id=C.Artist_id and C.Film_id=F.Film_id and F.Film_Year between 2002 and 2003;
+select Films.Film_Title,Review.Stars from Films inner join Review on Films.Film_id=Review.Film_id order by stars
+update Review set Stars=5 where Film_id=21 and 23
+select * from Review order by Stars
+select * from Films left join Casting on Films.Film_id=Casting.Film_id union all select * from Films right join Casting on Films.Film_id=Casting.Film_id
+
