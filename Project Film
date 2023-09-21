@@ -48,10 +48,10 @@ select * from Review
 select Film_Title from Films where Film_Year=2001;
 select Producer.Producer_Name,Films.Film_Title from Producer inner join Films on Producer.Producer_id=Films.Producer_id;
 select Films.Film_Title,Producer.Producer_Name from Films inner join Producer on Films.Producer_id=Producer.Producer_id where Producer_Name="Ceasor";
-select Artist.Artist_Name,Films.Film_Title,Films.Film_Year,Casting.Artist_id from Artist
-inner join Films on Films.Film_id=Artist.Artist_id
-inner join Casting on Films.Film_id=Casting.Film_id between 2002 and 2003;
-select A.Artist_Name,F.Film_Title,F.Film_Year from Artist A,Casting C,Films F where A.Artist_id=C.Artist_id and C.Film_id=F.Film_id and F.Film_Year between 2002 and 2003;
+select Artist.Artist_Name, Films.Film_Title, Films.Film_Year from Artist
+inner join Casting on Artist.Artist_id = Casting.Artist_id
+inner join Films on Casting.Film_id = Films.Film_id
+where Films.Film_Year between 2002 and 2003;
 select Films.Film_Title,Review.Stars from Films inner join Review on Films.Film_id=Review.Film_id order by stars
 update Review set Stars=5 where Film_id=21 and 23
 select * from Review order by Stars
